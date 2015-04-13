@@ -7,4 +7,11 @@ class LearningAlgorithm(object):
 
     @abc.abstractmethod
     def learn(self, learningRate, input, output, network):
+        """
+        :param learningRate: double
+        :param input: list
+        :param output: list
+        :param network: [[Neuron]]
+        :return: [[Neuron]]
+        """
         return

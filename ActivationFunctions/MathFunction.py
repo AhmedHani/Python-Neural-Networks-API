@@ -7,8 +7,16 @@ class MathFunction(object):
 
     @abc.abstractmethod
     def function(self, input):
+        """
+        :param input: double
+        :return: double
+        """
         return
 
     @abc.abstractmethod
     def derivative(self, input):
+        """
+        :param input: double
+        :return: double
+        """
         return

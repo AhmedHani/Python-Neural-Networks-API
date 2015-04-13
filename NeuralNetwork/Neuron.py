@@ -23,6 +23,10 @@ class Neuron(object):
     def SignalError(self):
         return self.__signalError
 
+    @property.setter
+    def SignalError(self, value):
+        self.__signalError = value
+
     @property
     def Bias(self):
         return self.__bias
@@ -40,6 +44,18 @@ class Neuron(object):
         return self.__activationFunction
 
     def __init__(self, activationFunction, numberOfInput=None, weights=None, bias=None):
+        """
+        :param activationFunction: ActivationFunction
+        :param numberOfInput: int
+        :param weights: list
+        :param bias: double
+
+        Initialize the class with 3 different ways
+        1: Given the number of input for the Neuron
+        2: Given the weights for each input and the activation function
+        3: Given the weights for each input, bias and activation function
+        """
+
         if numberOfInput is not None:
             self.__weights = [0.0 for i in range(numberOfInput)]
             self.__bias = 0.0
@@ -64,13 +80,6 @@ class Neuron(object):
         self.__output = 0.0
         self.__signalError = 0.0
 
-    @classmethod
-    def __init__(cls, weights, bias, activationFunction):
-        cls.__weights = weights
-        cls.__init__(len(weights))
-        cls.__bias = bias
-        cls.__activationFunction = activationFunction
-
     def __linearCalculation(self):
         size = len(self.__weights)
         result = 0.0
@@ -83,6 +92,12 @@ class Neuron(object):
         return result
 
     def feedforward(self, input):
+        """
+        :param input: list
+        :return: list
+
+        Compute the output of the Neuron given the input
+        """
         self.__input = input
 
         self.__net = self.__linearCalculation()
@@ -91,5 +106,11 @@ class Neuron(object):
         return self.__output
 
     def update(self, weights, bias):
+        """
+        :param weights: list
+        :param bias: double
+
+        Set the new values of weights and bias after training
+        """
         self.__weights = weights
         self.__bias = bias
