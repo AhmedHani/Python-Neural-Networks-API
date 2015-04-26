@@ -38,6 +38,7 @@ class Backpropagation(LearningAlgorithm):
 
         for i in range(0, len(network)):
             for j in range(0, len(network[i])):
+                x = len(network[i])
                 currentWeights = network[i][j].Weights
                 currentBias = network[i][j].Bias
 
@@ -45,9 +46,10 @@ class Backpropagation(LearningAlgorithm):
                     if i == 0:
                         currentWeights[k] += learningRate * network[i][j].SignalError * input[k]
                     else:
-                        currentWeights[k] += learningRate * network[i][j].SignalError * network[i - 1][j].Output
+                        currentWeights[k] += learningRate * network[i][j].SignalError * network[i - 1][k].Output
 
                 currentBias += learningRate * network[i][j].SignalError
                 network[i][j].update(currentWeights, currentBias)
+                x = len(network[i])
 
         return network

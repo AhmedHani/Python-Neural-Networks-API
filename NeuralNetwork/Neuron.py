@@ -1,5 +1,6 @@
 __author__ = 'ENG.AHMED HANI'
 from ActivationFunctions.MathFunction import *
+import random
 
 
 class Neuron(object):
@@ -23,7 +24,15 @@ class Neuron(object):
     def SignalError(self):
         return self.__signalError
 
-    @property.setter
+    @property
+    def SignalError(self):
+        pass
+
+    @SignalError.getter
+    def SignalError(self):
+        return self.__signalError
+
+    @SignalError.setter
     def SignalError(self, value):
         self.__signalError = value
 
@@ -33,13 +42,25 @@ class Neuron(object):
 
     @property
     def Net(self):
+        pass
+
+    @Net.getter
+    def Net(self):
         return self.__net
 
     @property
     def Output(self):
+        pass
+
+    @Output.getter
+    def Output(self):
         return self.__output
 
     @property
+    def ActivationFunction(self):
+        pass
+
+    @ActivationFunction.getter
     def ActivationFunction(self):
         return self.__activationFunction
 
@@ -57,19 +78,17 @@ class Neuron(object):
         """
 
         if numberOfInput is not None:
-            self.__weights = [0.0 for i in range(numberOfInput)]
-            self.__bias = 0.0
+            self.__weights = [round(random.random(), 3) for i in range(numberOfInput)]
+            self.__bias = round(random.random(), 2)
 
         elif weights is not None and activationFunction is not None:
-            self.__activationFunction = activationFunction
             self.__weights = weights
-            self.__bias = 0.0
+            self.__bias = round(random.random(), 2)
             numberOfInput = len(weights)
 
         elif weights is not None and bias is not None and activationFunction is not None:
             self.__weights = weights
             self.__bias = bias
-            self.__activationFunction = activationFunction
             numberOfInput = len(weights)
 
         else:
@@ -80,6 +99,7 @@ class Neuron(object):
         self.__output = 0.0
         self.__signalError = 0.0
 
+    @classmethod
     def __linearCalculation(self):
         size = len(self.__weights)
         result = 0.0
@@ -91,6 +111,7 @@ class Neuron(object):
 
         return result
 
+    @classmethod
     def feedforward(self, input):
         """
         :param input: list
@@ -101,7 +122,7 @@ class Neuron(object):
         self.__input = input
 
         self.__net = self.__linearCalculation()
-        self.__output = self.__activationFunction.function(self.__net)
+        self.__output = self.__activationFunction.function(MathFunction(), self.__net)
 
         return self.__output
 

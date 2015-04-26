@@ -3,7 +3,7 @@ import abc
 
 
 class MathFunction(object):
-    __metaclass__ = abc.ABCMeta
+    #__metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
     def function(self, input):

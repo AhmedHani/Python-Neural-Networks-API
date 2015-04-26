@@ -1,5 +1,7 @@
 __author__ = 'Ahmed Hani Ibrahim'
-from Neuron import *
+from NeuralNetwork.Neuron import Neuron
+from ActivationFunctions.Sigmoid import *
+import numpy as np
 
 class FeedforwardNeuralNetwork(object):
     __numberOfLayers = 0
@@ -12,7 +14,6 @@ class FeedforwardNeuralNetwork(object):
             raise Exception("Can't Initiate Network with lower than 2 layers")
 
         self.__numberOfLayers = numberOfLayers
-        self.__network = [[Neuron]]
 
     def setNetwork(self, numberOfNeuronsPerLayer):
         """
@@ -27,7 +28,9 @@ class FeedforwardNeuralNetwork(object):
         self.__numberOfNeuronsPerLayer = numberOfNeuronsPerLayer
         self.__numberOfInput = numberOfNeuronsPerLayer[0]
 
-        self.__network = [Neuron for j in range(1, self.__numberOfLayers).append([Neuron])]
+        self.__network = [[Neuron(Sigmoid(), numberOfNeuronsPerLayer[i - 1])
+                           for j in range(0, numberOfNeuronsPerLayer[i])] for i in range(1, self.__numberOfLayers)]
+
 
     def setLayer(self, layerIndex, activationFunction):
         """
@@ -40,7 +43,7 @@ class FeedforwardNeuralNetwork(object):
            raise Exception("Can't set Input Layer")
 
         for i in range(0, self.__numberOfNeuronsPerLayer[layerIndex]):
-            neuron = Neuron(self.__numberOfNeuronsPerLayer[layerIndex - 1], activationFunction)
+            neuron = Neuron(activationFunction, self.__numberOfNeuronsPerLayer[layerIndex - 1])
             self.__network[layerIndex - 1].append(neuron)
 
     def setNeuron(self, layerIndex, neuronIndex, weights, bias):
@@ -57,7 +60,7 @@ class FeedforwardNeuralNetwork(object):
 
         self.__network[layerIndex - 1][neuronIndex].update(weights, bias)
 
-    def feedforward(self, input):
+    def computOutput(self, input):
         """
         :param input: list
         :return: list
@@ -68,10 +71,10 @@ class FeedforwardNeuralNetwork(object):
             raise Exception("Invalid Input Size!")
 
         currentInput = input
-        nextInput = []
+        nextInput = [0.0 for i in range(0, 1000)]
 
         for i in range(1, self.__numberOfLayers):
-            for j in range(0, self.__numberOfNeuronsPerLayer[j]):
+            for j in range(0, self.__numberOfNeuronsPerLayer[i]):
                 nextInput.append(self.__network[i - 1][j].feedforward(currentInput))
 
             currentInput = nextInput
@@ -92,8 +95,11 @@ class FeedforwardNeuralNetwork(object):
         then using the chosen learning algorithm, the weights are updated
         """
         for i in range(0, len(trainingSamples)):
-            output = self.feedforward(trainingSamples[i])
+            output = self.computOutput(trainingSamples[i])
             self.__network = learningAlgorithm.learn(learningRate, trainingSamples[i], trainingLabels[i], self.__network)
+
+        return self.__network
+
 
 
 
