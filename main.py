@@ -12,7 +12,6 @@ s = Sigmoid()
 network.setNetwork([2, 5, 2, 2])
 trainingSample = [[0 for i in range(2)] for j in range(10)]
 labels = [[0 for j in range(3)] for i in range(0, 50)]
-clsses = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
 
 for i in range(0, 20):
     labels[i] = [1, 0]
@@ -32,7 +31,7 @@ while x < 100:
     x += 1
     z = network.train(trainingSample, labels, 0.1, Backpropagation())
 
-z = 0
+z = network.computOutput([0.2, 0.4])
 
 
 

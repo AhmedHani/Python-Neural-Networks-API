@@ -99,7 +99,6 @@ class Neuron(object):
         self.__output = 0.0
         self.__signalError = 0.0
 
-    @classmethod
     def __linearCalculation(self):
         size = len(self.__weights)
         result = 0.0
@@ -111,7 +110,6 @@ class Neuron(object):
 
         return result
 
-    @classmethod
     def feedforward(self, input):
         """
         :param input: list
@@ -122,7 +120,7 @@ class Neuron(object):
         self.__input = input
 
         self.__net = self.__linearCalculation()
-        self.__output = self.__activationFunction.function(MathFunction(), self.__net)
+        self.__output = self.__activationFunction.function(self.__net)
 
         return self.__output
 

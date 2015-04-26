@@ -71,11 +71,14 @@ class FeedforwardNeuralNetwork(object):
             raise Exception("Invalid Input Size!")
 
         currentInput = input
-        nextInput = [0.0 for i in range(0, 1000)]
+        nextInput = []
 
         for i in range(1, self.__numberOfLayers):
             for j in range(0, self.__numberOfNeuronsPerLayer[i]):
-                nextInput.append(self.__network[i - 1][j].feedforward(currentInput))
+                res = self.__network[i - 1][j].feedforward(currentInput)
+                nextInput.append(res)
+                print(res)
+
 
             currentInput = nextInput
             nextInput = []
