@@ -18,18 +18,31 @@ class GeneralizedHebbian(object):
         return self.__weights
 
     def __init__(self, input, numberOfFeatures, learningRate):
+        """
+        :param input: Number of features to be reduced --[double]
+        :param numberOfFeatures: The number of resultant features after reduction --int
+        :param learningRate: --double
+        """
         self.__input = input
         self.__numberOfFeatures = numberOfFeatures
         self.__learningRate = learningRate
         self.__weights = [[random.random() for j in range(0, len(input))] for i in range(0, self.__numberOfFeatures)]
 
     def train(self, epochs, trainingSamples):
+        """
+        :param epochs: Number of iterations --int
+        :param trainingSamples: The training data --[[double]]
+        """
         for iter in range(0, epochs):
             for i in range(0, len(trainingSamples)):
                 self.__output = self.featuresReduction(trainingSamples[i])
                 self.__update(trainingSamples[i])
 
     def featuresReduction(self, features):
+        """
+        :param features: The features that to be reduced --[double]
+        :return: The new features after reduction [double]
+        """
         output = [0.0 for i in range(0, self.__numberOfFeatures)]
 
         for i in range(0, self.__numberOfFeatures):
